@@ -11,9 +11,14 @@ module TbHeavyControl
     private
 
     def load_file(original_path)
-      relative_path = Pathname.new('').join(*Array(original_path))
+      array_form    = Array(original_path)
+      last_element  = array_form.last
+
+      array_form[-1] = last_element + '.rb' unless last_element[-3..-1] == '.rb'
+
+      relative_path = Pathname.new('').join(*array_form)
       path = Rails.root.join 'app', 'concepts', relative_path
-      raise "Connot find file: #{path}" unless path.file?
+      raise "Cannot find file: #{path}" unless path.file?
       @load_order << path
     end
   end
