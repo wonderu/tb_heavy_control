@@ -8,7 +8,13 @@ module TbHeavyControl
       raise 'tb_heavy_control config cannot run without block' if block.nil?
       @pipeline ||= [] # Pathname means load file, String - check constant
       @context = Rails.root.join('app', 'concepts')
+
       instance_eval(&block)
+    end
+
+    def debug(arg = nil)
+      @debug = arg unless arg.nil?
+      @debug
     end
 
     private

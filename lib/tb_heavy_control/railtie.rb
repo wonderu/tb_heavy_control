@@ -3,7 +3,6 @@ require 'tb_heavy_control/loader'
 module TbHeavyControl
   class Railtie < Rails::Railtie
     def self.concepts_loader(_app)
-      TbHeavyControl.pipeline.each { |x| puts x }
       TbHeavyControl::Loader.call
     end
 
