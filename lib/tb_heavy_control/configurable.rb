@@ -12,13 +12,10 @@ module TbHeavyControl
     private
 
     def load_file(original_path)
-      array_form    = Array(original_path).map(&:to_s)
-      last_element  = array_form.last
-
-      array_form[-1] = last_element + '.rb' unless last_element[-3..-1] == '.rb'
-
-      path = @context.join(*array_form)
+      array_form  = Array(original_path).map(&:to_s)
+      path        = @context.join(*array_form)
       raise "Cannot find file: #{path}" unless path.file?
+
       @load_order << path unless @load_order.include?(path)
     end
 
@@ -35,8 +32,23 @@ module TbHeavyControl
       folder      = @context.join(*array_form)
       raise "#{folder} isn't a directory" unless folder.directory?
 
-      rb_files = folder.entries.select { |pn| pn.to_s[-3..-1] == '.rb' }
-      rb_files.each { |file| load_file folder.join(file) }
+      rb_files = folder.children.select { |pn| pn.extname == '.rb' }
+      rb_files.each { |file| load_file file }
+    end
+
+    def recursive(original_path = '', reverse: false)
+      array_form  = Array(original_path)
+      folder      = @context.join(*array_form)
+      raise "#{folder} isn't a directory" unless folder.directory?
+
+      load_folder original_path unless reverse
+      context original_path do
+        # exclude '.' and '..' entries
+        folder.children.select(&:directory?).each do |child_folder|
+          recursive child_folder.basename, reverse: reverse
+        end
+      end
+      load_folder original_path if reverse
     end
   end
 end
