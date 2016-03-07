@@ -22,10 +22,19 @@ module TbHeavyControl
         Rails.logger.debug "tb_heavy_control: check constant '#{const_name}'" if TbHeavyControl.debug
         const_name.constantize
       rescue NameError
-        parent          = const_name.deconstantize.constantize
+        parent = resolve_parent(const_name)
+
         new_module_name = const_name.demodulize
         Rails.logger.debug "tb_heavy_control: create module '#{const_name}'" if TbHeavyControl.debug
         parent.const_set(new_module_name, Module.new)
+      end
+
+      def resolve_parent(const_name)
+        parent_str = const_name.deconstantize
+        case parent_str
+        when '', '::' then Object
+        else parent_str.constantize
+        end
       end
     end
   end
