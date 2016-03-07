@@ -5,6 +5,7 @@ module TbHeavyControl
     def config(&block)
       raise 'tb_heavy_control config cannot run without block' if block.nil?
       @load_order ||= []
+      @context = Pathname.new('')
       instance_eval(&block)
     end
 
@@ -16,10 +17,17 @@ module TbHeavyControl
 
       array_form[-1] = last_element + '.rb' unless last_element[-3..-1] == '.rb'
 
-      relative_path = Pathname.new('').join(*array_form)
+      relative_path = @context.join(*array_form)
       path = Rails.root.join 'app', 'concepts', relative_path
       raise "Cannot find file: #{path}" unless path.file?
       @load_order << path
+    end
+
+    def context(path)
+      previous_context = @context
+      @context = previous_context.join(*Array(path))
+      yield
+      @context = previous_context
     end
   end
 end
