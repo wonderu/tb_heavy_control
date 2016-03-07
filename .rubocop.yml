@@ -1,3 +1,8 @@
+AllCops:
+  TargetRubyVersion: 2.2
+  Exclude:
+    - lib/trailblazer/*
+
 Rails:
   Enabled: true
 
