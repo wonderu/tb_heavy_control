@@ -6,11 +6,11 @@ module TbHeavyControl
       TbHeavyControl::Loader.call
     end
 
-    initializer 'tb_heavy_control.disable_eager_loading', before: :set_load_path do |app|
-      path = app.root.join('app', 'concepts').to_s
-
-      app.config.eager_load_paths -= [path]
-    end
+    # initializer 'tb_heavy_control.disable_eager_loading', before: :set_load_path do |app|
+    #   path = app.root.join('app', 'concepts').to_s
+    #
+    #   app.config.eager_load_paths -= [path]
+    # end
 
     # this initializer is a copy from trailblazer-rails gem
     initializer 'tb_heavy_control.trailblazer-rails_stuff' do
