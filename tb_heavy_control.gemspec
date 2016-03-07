@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ['rvkolesnev@gmail.com']
   s.homepage    = 'https://github.com/ffloyd/tb_heavy_control'
   s.summary     = 'Trailblazer loader and integration for rails (without autoloading)'
-  s.description = 'Autoloading makes some things too difficult. I prefer prerequiring all thing which i need.'
+  s.description = 'Autoloading makes some things too difficult. I prefer prerequiring all thing which i need in order i want.'
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']
