@@ -1,0 +1,8 @@
+Rails:
+  Enabled: true
+
+LineLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
