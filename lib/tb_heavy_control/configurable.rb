@@ -47,6 +47,7 @@ module TbHeavyControl
       raise "#{folder} isn't a directory" unless folder.directory?
 
       rb_files = folder.children.select { |pn| pn.extname == '.rb' }
+      load_operations(folder)
       check_constant_for(folder) if rb_files.any?
       rb_files.each { |file| getrb file }
     end
@@ -67,6 +68,14 @@ module TbHeavyControl
     end
 
     # Helper methods
+
+    def load_operations(folder)
+      if folder.entries.include?(Pathname.new('operations'))
+        context folder.basename do
+          folder 'operations'
+        end
+      end
+    end
 
     def check_constant_for(folder) # rubocop:disable Metrics/AbcSize (15.5)
       return if CONST_CHECK_SKIP.include? folder.basename.to_s

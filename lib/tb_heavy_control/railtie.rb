@@ -13,7 +13,7 @@ module TbHeavyControl
     # end
 
     # this initializer is a copy from trailblazer-rails gem
-    initializer 'tb_heavy_control.trailblazer-rails_stuff' do
+    initializer 'tb_heavy_control.trailblazer-rails_stuff', before: :load_config_initializers do
       require 'trailblazer/autoloading'
 
       require 'trailblazer/operation/model'
