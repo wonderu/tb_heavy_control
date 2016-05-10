@@ -46,7 +46,7 @@ module TbHeavyControl
       folder = @context.join(*normalize(original_path))
       raise "#{folder} isn't a directory" unless folder.directory?
 
-      rb_files = folder.children.select { |pn| pn.extname == '.rb' }
+      rb_files = folder.children.sort.select { |pn| pn.extname == '.rb' }
       load_operations(folder)
       check_constant_for(folder) if rb_files.any?
       rb_files.each { |file| getrb file }
@@ -59,7 +59,7 @@ module TbHeavyControl
       folder original_path unless reverse
       context original_path do
         # exclude '.' and '..' entries
-        folder.children.select(&:directory?).each do |child_folder|
+        folder.children.sort.select(&:directory?).each do |child_folder|
           next if child_folder.basename == 'views'
           recursive child_folder.basename, reverse: reverse
         end
